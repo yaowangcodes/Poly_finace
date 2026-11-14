@@ -1,0 +1,32 @@
+asset_id,ticker,name,asset_class,market,currency,sector
+A01,RY.TO,Royal Bank of Canada,equity,TSX,CAD,Financials
+A02,TD.TO,Toronto-Dominion Bank,equity,TSX,CAD,Financials
+A03,MFC.TO,Manulife Financial,equity,TSX,CAD,Financials
+A04,ENB.TO,Enbridge,equity,TSX,CAD,Energy
+A05,CNQ.TO,Canadian Natural Resources,equity,TSX,CAD,Energy
+A06,CNR.TO,Canadian National Railway,equity,TSX,CAD,Industrials
+A07,FTS.TO,Fortis,equity,TSX,CAD,Utilities
+A08,ATD.TO,Alimentation Couche-Tard,equity,TSX,CAD,Consumer Staples
+A09,SHOP.TO,Shopify,equity,TSX,CAD,Information Technology
+A10,CSU.TO,Constellation Software,equity,TSX,CAD,Information Technology
+A11,AAPL,Apple,equity,NASDAQ,USD,Information Technology
+A12,MSFT,Microsoft,equity,NASDAQ,USD,Information Technology
+A13,NVDA,NVIDIA,equity,NASDAQ,USD,Information Technology
+A14,GOOGL,Alphabet (Class A),equity,NASDAQ,USD,Communication Services
+A15,AMZN,Amazon,equity,NASDAQ,USD,Consumer Discretionary
+A16,TSLA,Tesla,equity,NASDAQ,USD,Consumer Discretionary
+A17,JPM,JPMorgan Chase,equity,NYSE,USD,Financials
+A18,JNJ,Johnson & Johnson,equity,NYSE,USD,Health Care
+A19,PG,Procter & Gamble,equity,NYSE,USD,Consumer Staples
+A20,XOM,Exxon Mobil,equity,NYSE,USD,Energy
+A21,XIU.TO,iShares S&P/TSX 60 Index ETF,etf_equity,TSX,CAD,Broad market (Canada)
+A22,SPY,SPDR S&P 500 ETF Trust,etf_equity,NYSE Arca,USD,Broad market (U.S.)
+A23,QQQ,Invesco QQQ Trust (Nasdaq-100),etf_equity,NASDAQ,USD,Broad market (U.S. growth/tech-heavy)
+A24,ESGV,Vanguard ESG U.S. Stock ETF,etf_equity,Cboe BZX,USD,"Broad market (U.S., ESG-screened)"
+A25,XBB.TO,iShares Core Canadian Universe Bond Index ETF,etf_bond,TSX,CAD,Bonds (Canada aggregate)
+A26,ZST.TO,BMO Ultra Short-Term Bond ETF,etf_bond,TSX,CAD,Bonds (Canada ultra short-term)
+A27,AGG,iShares Core U.S. Aggregate Bond ETF,etf_bond,NYSE Arca,USD,Bonds (U.S. aggregate)
+A28,TLT,iShares 20+ Year Treasury Bond ETF,etf_bond,NASDAQ,USD,Bonds (U.S. long Treasury)
+A29,GLD,SPDR Gold Shares,etf_commodity,NYSE Arca,USD,Gold
+A30,BTC-USD,Bitcoin,crypto,Crypto (24/7),USD,Crypto asset
+A31,ETH-USD,Ether,crypto,Crypto (24/7),USD,Crypto asset
