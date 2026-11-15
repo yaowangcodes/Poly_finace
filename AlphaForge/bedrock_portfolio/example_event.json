@@ -1,0 +1,11 @@
+{
+  "prompt": "Build a portfolio using these confirmed limits.",
+  "identity_token": "REPLACE_WITH_SIGNED_USER_JWT",
+  "session_id": "8ba393d8-9edc-4db9-bf94-f494125533cf",
+  "new_conversation": true,
+  "confirmed_constraints": {
+    "crypto_max": 0,
+    "cash_min": 0.2,
+    "vol_max": 0.08
+  }
+}

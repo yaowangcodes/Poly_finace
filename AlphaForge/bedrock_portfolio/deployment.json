@@ -1,0 +1,10 @@
+{
+    "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-east-1:339712771896:runtime/AlphaForgePortfolio-TevjcpB3OT",
+    "workloadIdentityDetails": {
+        "workloadIdentityArn": "arn:aws:bedrock-agentcore:us-east-1:339712771896:workload-identity-directory/default/workload-identity/AlphaForgePortfolio-TevjcpB3OT"
+    },
+    "agentRuntimeId": "AlphaForgePortfolio-TevjcpB3OT",
+    "agentRuntimeVersion": "1",
+    "createdAt": "2026-11-15T13:53:55.202088+00:00",
+    "status": "CREATING"
+}

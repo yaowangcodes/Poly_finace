@@ -1,0 +1,8 @@
+numpy==2.3.5
+pandas==2.3.3
+scipy==1.16.3
+cvxpy==1.9.3
+clarabel==0.11.1
+strands-agents==1.65.0
+bedrock-agentcore==1.26.0
+PyJWT[crypto]==2.15.1

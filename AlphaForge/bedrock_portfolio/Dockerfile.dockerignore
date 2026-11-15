@@ -1,0 +1,10 @@
+**
+!bedrock_portfolio/
+!bedrock_portfolio/requirements.txt
+!bedrock_portfolio/portfolio_skill.py
+!alphaforge_starter/
+!alphaforge_starter/*.csv
+!bedrock_portfolio/main.py
+!bedrock_portfolio/AGENT_INSTRUCTIONS.md
+
+!bedrock_portfolio/conversation.py

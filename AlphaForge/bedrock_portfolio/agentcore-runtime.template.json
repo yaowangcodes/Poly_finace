@@ -1,0 +1,23 @@
+{
+  "agentRuntimeName": "AlphaForgePortfolio",
+  "agentRuntimeArtifact": {
+    "containerConfiguration": {
+      "containerUri": "${IMAGE_URI}"
+    }
+  },
+  "roleArn": "${EXECUTION_ROLE_ARN}",
+  "networkConfiguration": {
+    "networkMode": "PUBLIC"
+  },
+  "protocolConfiguration": {
+    "serverProtocol": "HTTP"
+  },
+  "environmentVariables": {
+    "BEDROCK_MODEL_ID": "${BEDROCK_MODEL_ID}",
+    "AWS_REGION": "${AWS_REGION}",
+    "AGENTCORE_MEMORY_ID": "${AGENTCORE_MEMORY_ID}",
+    "AUTH_ISSUER": "${AUTH_ISSUER}",
+    "AUTH_AUDIENCE": "${AUTH_AUDIENCE}",
+    "AUTH_JWKS_URL": "${AUTH_JWKS_URL}"
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "memory": {
+        "arn": "arn:aws:bedrock-agentcore:us-east-1:339712771896:memory/AlphaForgeConversationSTM-j2yxFXBeaQ",
+        "id": "AlphaForgeConversationSTM-j2yxFXBeaQ",
+        "name": "AlphaForgeConversationSTM",
+        "eventExpiryDuration": 30,
+        "status": "ACTIVE",
+        "createdAt": "2026-11-15T09:31:51.154000-05:00",
+        "updatedAt": "2026-11-15T09:31:51.676000-05:00",
+        "strategies": []
+    }
+}

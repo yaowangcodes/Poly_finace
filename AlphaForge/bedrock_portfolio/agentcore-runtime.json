@@ -1,0 +1,19 @@
+{
+  "agentRuntimeName": "AlphaForgePortfolio",
+  "agentRuntimeArtifact": {
+    "containerConfiguration": {
+      "containerUri": "339712771896.dkr.ecr.us-east-1.amazonaws.com/alphaforge-portfolio:v1"
+    }
+  },
+  "roleArn": "arn:aws:iam::339712771896:role/AlphaForgeAgentCoreExecutionRole",
+  "networkConfiguration": {
+    "networkMode": "PUBLIC"
+  },
+  "protocolConfiguration": {
+    "serverProtocol": "HTTP"
+  },
+  "environmentVariables": {
+    "BEDROCK_MODEL_ID": "us.anthropic.claude-opus-4-6-v1",
+    "AWS_REGION": "us-east-1"
+  }
+}

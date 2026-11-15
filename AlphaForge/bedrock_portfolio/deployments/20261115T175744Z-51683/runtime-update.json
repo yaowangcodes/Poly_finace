@@ -1,0 +1,30 @@
+{
+  "agentRuntimeId": "AlphaForgePortfolio-TevjcpB3OT",
+  "roleArn": "arn:aws:iam::339712771896:role/AlphaForgeAgentCoreExecutionRole",
+  "networkConfiguration": {
+    "networkMode": "PUBLIC"
+  },
+  "protocolConfiguration": {
+    "serverProtocol": "HTTP"
+  },
+  "lifecycleConfiguration": {
+    "idleRuntimeSessionTimeout": 900,
+    "maxLifetime": 28800
+  },
+  "metadataConfiguration": {
+    "requireMMDSV2": true
+  },
+  "platformVersion": "V1",
+  "agentRuntimeArtifact": {
+    "containerConfiguration": {
+      "containerUri": "339712771896.dkr.ecr.us-east-1.amazonaws.com/alphaforge-portfolio:stm-20261115T175744Z-51683"
+    }
+  },
+  "environmentVariables": {
+    "AWS_REGION": "us-east-1",
+    "BEDROCK_MODEL_ID": "us.anthropic.claude-opus-4-6-v1",
+    "AGENTCORE_MEMORY_ID": "AlphaForgeConversationSTM-j2yxFXBeaQ",
+    "SINGLE_USER_ACTOR_ID": "alphaforge-local-owner",
+    "AUTH_MODE": "iam_single_user"
+  }
+}

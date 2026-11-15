@@ -1,0 +1,18 @@
+{
+  "position_max": 1.0,
+  "cash_min": 1.0,
+  "bond_min": 1.0,
+  "equity_max": 1.0,
+  "crypto_max": 1.0,
+  "hhi_max": 1.0,
+  "cvar_max": 1.0,
+  "stress_max": 1.0,
+  "usd_max": 1.0,
+  "canada_min": 1.0,
+  "gold_min": 1.0,
+  "vol_max": 5.0,
+  "beta_max": 10.0,
+  "te_max": 5.0,
+  "downside_max": 5.0,
+  "turnover_max": 2.0
+}
