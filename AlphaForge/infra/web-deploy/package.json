@@ -1,0 +1,8 @@
+{
+  "name": "alphaforge-web-deploy",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test test.mjs", "synth": "cdk synth --strict" },
+  "dependencies": { "aws-cdk-lib": "2.277.0", "constructs": "10.5.0" },
+  "devDependencies": { "aws-cdk": "2.1148.1" }
+}

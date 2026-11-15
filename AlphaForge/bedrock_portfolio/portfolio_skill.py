@@ -17,6 +17,8 @@ import cvxpy as cp
 import numpy as np
 import pandas as pd
 
+from portfolio_analytics import analyze_portfolio, historical_cash_returns
+
 ALPHA = 0.95
 TOL = 2e-6
 BASE = dict(position_max=.20, crypto_max=.10, hhi_max=.12)
@@ -343,6 +345,15 @@ def _compute(request, DATA):
                  "conditional_asset_effective_n":float(w.sum()**2/(w@w)) if w@w>1e-12 else None,
                  "gross_asset_turnover":float(values['turnover_max'])},
         exposures={k:float(v@w) for k,v in masks.items()},constraint_checks=checks)
+    historical_returns = train.copy()
+    price_dates = cad_prices.index[cad_prices.index <= fit_end]
+    historical_rf = historical_cash_returns(rate, price_dates)
+    historical_returns['CASH'] = historical_rf.reindex(train.index)
+    analytics = analyze_portfolio(result['weights'], historical_returns, historical_rf,
+                                  train['SPY'], start_date=price_dates[0])
+    result['metrics'].update(analytics.pop('metrics'))
+    result['historical_analytics'] = analytics
+    result['asset_classes'] = {**universe.asset_class.to_dict(), 'CASH': 'cash'}
     return result
 
 

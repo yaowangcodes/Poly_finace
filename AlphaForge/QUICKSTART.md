@@ -80,3 +80,19 @@ No `AWS_PROFILE` is needed when using Workshop credential exports. Preserve `web
 | Port 3000 already in use | Stop the old development server with `Ctrl+C`, then restart. |
 
 **Ready** confirms configuration checks, not a completed end-to-end model test. Workshop access is temporary and subject to the event's expiry and permissions.
+
+## 部署为公网网站
+
+使用新的独立入口，详见 [一键部署说明](infra/web-deploy/README.md)：
+
+```bash
+bash deploy_web.sh
+```
+
+首次执行生成 `infra/web-deploy/config.json` 后退出。填入 AWS 账号、区域和现有 AgentCore/Memory 信息，再运行同一命令即可部署。默认输出 AWS 提供的 `https://….cloudfront.net` 网站地址，无需购买域名或配置 Route 53。需要 Node.js 24、Python 3、AWS CLI 凭证和运行中的 Docker Desktop。
+
+- `bash deploy_web.sh --check`：本地配置及模板检查，不调用 AWS。
+- `bash deploy_web.sh --plan`：AWS 只读检查和变更预览。
+- `bash deploy_web.sh`：实际创建收费资源并更新后端，无二次确认。
+
+**公网部署会把现有 AgentCore 切换为多用户 JWT 模式，原本地免登录模式将无法调用它。之后不要再运行上面的 `deploy_single_user.sh`，否则会切回单用户模式。** 公网网站默认仅受邀请用户可登录，部署完成后通过 Cognito 控制台添加用户。

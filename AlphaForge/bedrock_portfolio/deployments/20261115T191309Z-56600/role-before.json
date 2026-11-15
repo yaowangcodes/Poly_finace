@@ -1,0 +1,34 @@
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "AlphaForgeAgentCoreExecutionRole",
+        "RoleId": "AROAU6GDVQ44IZZ7MCKZN",
+        "Arn": "arn:aws:iam::339712771896:role/AlphaForgeAgentCoreExecutionRole",
+        "CreateDate": "2026-11-15T13:49:10+00:00",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "bedrock-agentcore.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole",
+                    "Condition": {
+                        "StringEquals": {
+                            "aws:SourceAccount": "339712771896"
+                        },
+                        "ArnLike": {
+                            "aws:SourceArn": "arn:aws:bedrock-agentcore:us-east-1:339712771896:*"
+                        }
+                    }
+                }
+            ]
+        },
+        "MaxSessionDuration": 3600,
+        "RoleLastUsed": {
+            "LastUsedDate": "2026-11-15T18:55:19+00:00",
+            "Region": "us-east-1"
+        }
+    }
+}

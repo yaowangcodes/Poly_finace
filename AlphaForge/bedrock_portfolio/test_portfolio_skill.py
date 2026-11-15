@@ -42,6 +42,20 @@ class PortfolioTests(unittest.TestCase):
         expected = pd.read_csv(ROOT/'notebook_outputs/asset_indicators.csv', index_col=0)
         np.testing.assert_allclose(actual.loc[expected.index,expected.columns], expected, atol=1e-8)
 
+    def test_historical_metrics_use_fit_window_and_serialize(self):
+        from portfolio_analytics import HISTORICAL_KEYS
+        for name, result in self.results.items():
+            with self.subTest(profile=name):
+                analytics = result['historical_analytics']
+                self.assertEqual(analytics['end_date'], result['provenance']['fit_date'])
+                self.assertEqual(analytics['observations'], result['provenance']['training_returns'])
+                self.assertEqual(analytics['label'], 'Hypothetical Historical Reconstruction')
+                self.assertTrue(all(point['date'] <= analytics['end_date'] for point in analytics['history']))
+                self.assertTrue(all(np.isfinite(result['metrics'][key]) for key in HISTORICAL_KEYS))
+                self.assertEqual(analytics['unavailable_reasons'], {})
+                self.assertEqual(result['asset_classes']['CASH'], 'cash')
+                json.dumps(result, allow_nan=False)
+
     def test_custom_infeasible_never_relaxes(self):
         result = skill.run({'profile': 'Custom', 'constraints': {'cash_min': .8,'bond_min': .3}})
         self.assertEqual(result['status'], 'infeasible')

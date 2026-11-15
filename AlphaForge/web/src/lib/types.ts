@@ -48,6 +48,21 @@ export const portfolioSchema = z
     message: z.string().optional(),
     weights: numeric.optional(),
     metrics: z.record(z.string(), z.number().finite().nullable()).optional(),
+    asset_classes: z.record(z.string(), z.string()).optional(),
+    historical_analytics: z.object({
+      label: z.string(),
+      concentration_label: z.string(),
+      methodology: z.string(),
+      start_date: z.string(),
+      end_date: z.string().nullable(),
+      observations: z.number(),
+      valid_months: z.number(),
+      maximum_drawdown_date: z.string().optional(),
+      unavailable_reasons: z.record(z.string(), z.string()),
+      history: z.array(z.object({
+        date: z.string(), portfolio: z.number(), benchmark: z.number().nullable(), drawdown: z.number(),
+      })),
+    }).optional(),
     constraints: numeric.optional(),
     constraint_checks: z
       .array(

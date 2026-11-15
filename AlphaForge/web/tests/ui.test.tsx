@@ -37,7 +37,7 @@ it("renders actual structured weights and metrics; missing fields are unavailabl
       result={{
         status: "optimal",
         profile: "Custom",
-        weights: { CASH: 0.3, SPY: 0.7 },
+        weights: { CASH: 0.3, SPY: 0.7, ZERO: 0, RESIDUAL: 1e-10 },
         metrics: { annual_volatility: 0.08 },
         constraint_checks: [
           {
@@ -52,14 +52,16 @@ it("renders actual structured weights and metrics; missing fields are unavailabl
     />,
   );
   expect(screen.getByText("8.00%")).toBeInTheDocument();
-  expect(screen.getAllByText("Unavailable")).toHaveLength(4);
-  await userEvent.click(
-    screen.getByRole("button", { name: /View allocation/ }),
-  );
+  expect(screen.getAllByText("N/A")).toHaveLength(12);
   expect(screen.getByRole("cell", { name: "70.000%" })).toBeInTheDocument();
+  expect(screen.queryByRole("cell", { name: "ZERO" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("cell", { name: "RESIDUAL" })).not.toBeInTheDocument();
+  await userEvent.click(
+    screen.getByRole("button", { name: /View constraint/ }),
+  );
   expect(screen.getByText("Binding")).toBeInTheDocument();
   expect(screen.getByRole("cell", { name: "Cash" })).toBeInTheDocument();
-  expect(metricValue("beta", null)).toBe("Unavailable");
+  expect(metricValue("beta", null)).toBe("N/A");
 });
 it("shows infeasibility without fabricating allocation", () => {
   render(
@@ -306,4 +308,18 @@ it("does not fence a turn rejected by the connection preflight", async () => {
   await waitFor(() => expect(localStorage.getItem(`af:pending:${c.id}`)).toBeNull());
   expect(fetcher.mock.calls.some(([url]) => url.endsWith("/stop-waiting"))).toBe(false);
   expect(screen.queryByText("This conversation needs review")).not.toBeInTheDocument();
+});
+
+it("formats historical ratios and explains missing historical metrics", () => {
+  render(<PortfolioPanel result={{ status: "optimal", metrics: { maximum_drawdown: -.1234, sharpe_ratio: 1.234 },
+    historical_analytics: { label: "Hypothetical Historical Reconstruction", concentration_label: "Top Five Holdings Concentration",
+      methodology: "Lagged CAD rates", start_date: "2024-01-01", end_date: "2024-04-01", observations: 60, valid_months: 2,
+      unavailable_reasons: { calmar_ratio: "No historical drawdown; Calmar has a zero denominator." }, history: [] } }} />);
+  expect(screen.getByText("-12.34%")).toBeInTheDocument();
+  expect(screen.getByText("1.23")).toBeInTheDocument();
+  expect(screen.getByText("Hypothetical Historical Reconstruction")).toBeInTheDocument();
+  expect(screen.getByText("No historical drawdown; Calmar has a zero denominator.")).toBeInTheDocument();
+  expect(screen.getByRole("region", { name: "Expected Performance" })).toBeInTheDocument();
+  expect(metricValue("portfolio_beta", 1.234)).toBe("1.23");
+  expect(metricValue("calmar_ratio", Infinity)).toBe("N/A");
 });

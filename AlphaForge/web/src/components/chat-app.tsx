@@ -1,4 +1,5 @@
 "use client";
+import { readApiResponse } from "@/lib/api-response";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -96,12 +97,13 @@ async function api<T>(
     signal,
     cache: "no-store",
   });
-  const result = await response.json();
-  if (response.status === 401)
+  const parsed = await readApiResponse(response);
+  const result = parsed.body as T & { error?: string };
+  if (parsed.status === 401)
     window.dispatchEvent(new Event("alphaforge:unauthorized"));
-  if (!response.ok)
+  if (parsed.status < 200 || parsed.status >= 300)
     throw new ApiError(
-      response.status,
+      parsed.status,
       result.error ?? "The request could not be completed.",
     );
   return result;

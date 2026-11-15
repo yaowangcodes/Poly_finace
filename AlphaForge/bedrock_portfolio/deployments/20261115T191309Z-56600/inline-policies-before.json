@@ -1,0 +1,7 @@
+{
+    "PolicyNames": [
+        "AlphaForgeBedrockInvokePolicy",
+        "AlphaForgeECRReadPolicy",
+        "AlphaForgeSTM-20261115T175744Z-51683"
+    ]
+}

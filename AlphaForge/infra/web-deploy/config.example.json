@@ -1,0 +1,7 @@
+{
+  "account": "REPLACE_WITH_12_DIGIT_AWS_ACCOUNT",
+  "region": "us-east-1",
+  "stackPrefix": "AlphaForgePublic",
+  "runtimeId": "AlphaForgePortfolio-TevjcpB3OT",
+  "memoryId": "AlphaForgeConversationSTM-j2yxFXBeaQ"
+}

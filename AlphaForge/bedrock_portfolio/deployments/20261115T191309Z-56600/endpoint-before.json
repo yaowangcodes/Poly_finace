@@ -1,0 +1,10 @@
+{
+    "liveVersion": "2",
+    "agentRuntimeEndpointArn": "arn:aws:bedrock-agentcore:us-east-1:339712771896:runtime/AlphaForgePortfolio-TevjcpB3OT/runtime-endpoint/DEFAULT",
+    "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-east-1:339712771896:runtime/AlphaForgePortfolio-TevjcpB3OT",
+    "status": "READY",
+    "createdAt": "2026-11-15T13:53:55.431102+00:00",
+    "lastUpdatedAt": "2026-11-15T17:58:46.907674+00:00",
+    "name": "DEFAULT",
+    "id": "DEFAULT"
+}

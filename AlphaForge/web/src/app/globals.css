@@ -1442,3 +1442,11 @@ th {
 
 .connection-status { display:flex; gap:12px; flex-wrap:wrap; padding:8px 24px; font-size:12px; border-bottom:1px solid var(--border); }
 .connection-status button { text-decoration:underline; cursor:pointer; }
+
+.metric-section h4, .history-charts h4 { font-size: 13px; margin: 18px 0 10px; }
+.metric-help { display: inline-block; margin-left: 5px; cursor: help; }
+.metric-help:focus-visible { outline: 1px solid currentColor; border-radius: 3px; }
+.metric-unavailable { display: block; font-size: 10px; line-height: 1.4; opacity: .7; margin-top: 6px; }
+.historical-context { font-size: 11px; line-height: 1.6; margin: 16px 0; opacity: .85; }
+.historical-context summary { cursor: pointer; }
+.history-charts { min-width: 0; }
