@@ -1,0 +1,16 @@
+{
+  "functions": [
+    {
+      "name": "portfolio_analysis",
+      "description": "Read-only CAD portfolio simulation from AlphaForge data. Calculate indicators or optimize weights with explicit constraints. Returns weights, risk metrics, assumptions and feasibility. Never executes trades.",
+      "requireConfirmation": "DISABLED",
+      "parameters": {
+        "request_json": {
+          "type": "string",
+          "required": true,
+          "description": "JSON object. operation: optimize (default), indicators, list_profiles. profile: Balanced (default), Return only, Diversified, Defensive, Track SPY, Low turnover, Custom. constraints: numeric overrides such as vol_max:0.15, cash_min:0.20, crypto_max:0. Optional as_of:YYYY-MM-DD, kappa:0.001, shrink:0.5, previous_weights:{SPY:0.9}. Use fractions, not percentages. Custom has no preset limits. Unknown limits are errors. Call list_profiles for supported limits."
+        }
+      }
+    }
+  ]
+}

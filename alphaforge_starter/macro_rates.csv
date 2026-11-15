@@ -4374,6 +4374,7 @@ date,series_id,value,unit,frequency,label,source
 2026-11-09,DFF,3.88,percent,daily,U.S. effective federal funds rate,"FRED, Federal Reserve Bank of St. Louis"
 2026-11-10,DFF,3.88,percent,daily,U.S. effective federal funds rate,"FRED, Federal Reserve Bank of St. Louis"
 2026-11-11,DFF,3.88,percent,daily,U.S. effective federal funds rate,"FRED, Federal Reserve Bank of St. Louis"
+2026-11-12,DFF,3.88,percent,daily,U.S. effective federal funds rate,"FRED, Federal Reserve Bank of St. Louis"
 2021-11-12,DGS10,1.58,percent,business daily,"U.S. Treasury constant maturity yield, 10-year","FRED, Federal Reserve Bank of St. Louis"
 2021-11-15,DGS10,1.63,percent,business daily,"U.S. Treasury constant maturity yield, 10-year","FRED, Federal Reserve Bank of St. Louis"
 2021-11-16,DGS10,1.63,percent,business daily,"U.S. Treasury constant maturity yield, 10-year","FRED, Federal Reserve Bank of St. Louis"
@@ -5622,6 +5623,7 @@ date,series_id,value,unit,frequency,label,source
 2026-11-06,DGS10,4.86,percent,business daily,"U.S. Treasury constant maturity yield, 10-year","FRED, Federal Reserve Bank of St. Louis"
 2026-11-09,DGS10,4.88,percent,business daily,"U.S. Treasury constant maturity yield, 10-year","FRED, Federal Reserve Bank of St. Louis"
 2026-11-10,DGS10,4.98,percent,business daily,"U.S. Treasury constant maturity yield, 10-year","FRED, Federal Reserve Bank of St. Louis"
+2026-11-12,DGS10,5.1,percent,business daily,"U.S. Treasury constant maturity yield, 10-year","FRED, Federal Reserve Bank of St. Louis"
 2021-11-12,DGS2,0.53,percent,business daily,"U.S. Treasury constant maturity yield, 2-year","FRED, Federal Reserve Bank of St. Louis"
 2021-11-15,DGS2,0.53,percent,business daily,"U.S. Treasury constant maturity yield, 2-year","FRED, Federal Reserve Bank of St. Louis"
 2021-11-16,DGS2,0.54,percent,business daily,"U.S. Treasury constant maturity yield, 2-year","FRED, Federal Reserve Bank of St. Louis"
@@ -6870,6 +6872,7 @@ date,series_id,value,unit,frequency,label,source
 2026-11-06,DGS2,4.51,percent,business daily,"U.S. Treasury constant maturity yield, 2-year","FRED, Federal Reserve Bank of St. Louis"
 2026-11-09,DGS2,4.56,percent,business daily,"U.S. Treasury constant maturity yield, 2-year","FRED, Federal Reserve Bank of St. Louis"
 2026-11-10,DGS2,4.73,percent,business daily,"U.S. Treasury constant maturity yield, 2-year","FRED, Federal Reserve Bank of St. Louis"
+2026-11-12,DGS2,4.86,percent,business daily,"U.S. Treasury constant maturity yield, 2-year","FRED, Federal Reserve Bank of St. Louis"
 2021-12-01,STATIC_TOTALCPICHANGE,4.8,percent,monthly,"Canada total CPI, % change y/y (unadjusted)",Bank of Canada Valet API
 2022-01-01,STATIC_TOTALCPICHANGE,5.1,percent,monthly,"Canada total CPI, % change y/y (unadjusted)",Bank of Canada Valet API
 2022-02-01,STATIC_TOTALCPICHANGE,5.7,percent,monthly,"Canada total CPI, % change y/y (unadjusted)",Bank of Canada Valet API

@@ -1,0 +1,14 @@
+{
+  "messageVersion": "1.0",
+  "actionGroup": "AlphaForgePortfolio",
+  "function": "portfolio_analysis",
+  "parameters": [
+    {
+      "name": "request_json",
+      "type": "string",
+      "value": "{\"profile\": \"Balanced\"}"
+    }
+  ],
+  "sessionAttributes": {},
+  "promptSessionAttributes": {}
+}
