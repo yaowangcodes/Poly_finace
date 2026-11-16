@@ -107,9 +107,9 @@ export function createStacks(app, c) {
     removalPolicy: RemovalPolicy.RETAIN });
   const runtimeArn = `arn:aws:bedrock-agentcore:${c.region}:${c.account}:runtime/${c.runtimeId}`;
   const taskImageOptions = {
-      image: ecs.ContainerImage.fromAsset(path.join(root, 'web'), {
+      image: ecs.ContainerImage.fromAsset(path.resolve(root, '..'), {
         platform: assets.Platform.LINUX_ARM64, ignoreMode: IgnoreMode.DOCKER,
-        exclude: ['node_modules', '.next', '.env*', '.data', 'coverage', 'cdk.out'],
+        exclude: ['node_modules', '.next', '.env*', '.data', 'coverage', 'cdk.out', 'AlphaForge', 'alphaforge_starter', 'bedrock_portfolio', 'notebook_outputs', 'demo.ipynb', '.git', '.vscode', 'docs'],
       }), containerPort: 3000,
       environment: { ...(demo ? { WEB_STREAM_TURNS: '1' } : {}), NODE_ENV: 'production', WEB_AUTH_MODE: 'oidc', APP_ORIGIN: origin,
         STORE_DRIVER: 'dynamodb', ALLOW_LOCAL_FILE_STORE: 'false', DYNAMODB_TABLE: table.tableName,

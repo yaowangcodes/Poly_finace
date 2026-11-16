@@ -1,12 +1,12 @@
 # AlphaForge 一键部署网站
 
-从仓库根目录执行 `bash deploy_web.sh`，将 Next.js 网站部署到 ECS Fargate，并更新现有 AgentCore 后端，使网站登录用户可以调用优化器。不是静态导出，也不会启动一个公开的本地免登录服务。
+从仓库根目录执行 `bash AlphaForge/deploy_web.sh`，将 Next.js 网站部署到 ECS Fargate，并更新现有 AgentCore 后端，使网站登录用户可以调用优化器。不是静态导出，也不会启动一个公开的本地免登录服务。
 
 ## 默认无需域名：AWS HTTPS 地址
 
 现在默认使用 AWS 分配的 `https://<distribution-id>.cloudfront.net` 地址。**不需要购买域名、Route 53 Hosted Zone 或自备 TLS 证书。** `config.example.json` 已省略三个自定义域名字段。
 
-首次运行 `bash deploy_web.sh` 会生成 `config.json`。填写 AWS 账号并确认区域、Runtime ID 和 Memory ID，再次运行即可。新建 `AlphaForgePublic-Demo` Stack 包含 CloudFront、私有 ALB、网站服务、Cognito 和聊天存储；登录回调与 `APP_ORIGIN` 自动使用同一个 CloudFront 地址。部署完成后输出实际网址。
+首次运行 `bash AlphaForge/deploy_web.sh` 会生成 `config.json`。填写 AWS 账号并确认区域、Runtime ID 和 Memory ID，再次运行即可。新建 `AlphaForgePublic-Demo` Stack 包含 CloudFront、私有 ALB、网站服务、Cognito 和聊天存储；登录回调与 `APP_ORIGIN` 自动使用同一个 CloudFront 地址。部署完成后输出实际网址。
 
 CloudFront 禁止缓存页面、API 和错误响应，转发用户 cookies、查询参数和请求头。默认只允许 HTTPS；ALB 位于私有子网，不直接暴露公网入口。网站任务仍在公有子网使用公网 IP 出站，并仅接受 ALB 入站，避免 NAT 网关。
 
@@ -31,11 +31,11 @@ export PATH="/private/tmp/alphaforge-node/node-v24.22.3-darwin-arm64/bin:$PATH"
 首次运行：
 
 ```bash
-cd /Users/winston/Desktop/AlphaForge
-bash deploy_web.sh
+# Run from the Poly_finace project root
+bash AlphaForge/deploy_web.sh
 ```
 
-首次没有配置时会生成 `infra/web-deploy/config.json`，提示填写并退出，**不会部署**。也可手动复制 `config.example.json`。配置字段：
+首次没有配置时会生成 `AlphaForge/infra/web-deploy/config.json`，提示填写并退出，**不会部署**。也可手动复制 `config.example.json`。配置字段：
 
 | 字段 | 填写内容 |
 | --- | --- |
@@ -54,13 +54,13 @@ bash deploy_web.sh
 
 ```bash
 # 本地配置验证及 CloudFormation 合成：不调用 AWS、不构建 Docker
-bash deploy_web.sh --check
+bash AlphaForge/deploy_web.sh --check
 
 # AWS 只读检查和变更预览：不创建资源、不更新后端
-bash deploy_web.sh --plan
+bash AlphaForge/deploy_web.sh --plan
 
 # 正式部署；以后更新代码仍执行同一条命令
-bash deploy_web.sh
+bash AlphaForge/deploy_web.sh
 ```
 
 三种模式都会使用锁定版本安装部署依赖，因此需要 npm 网络访问。可以使用 `--config /absolute/path/config.json` 指定另一份配置。首次账号未 bootstrap 时，`--plan` 的 CDK diff 可能提示 bootstrap 缺失；正式部署会执行 bootstrap。
@@ -101,7 +101,7 @@ bash deploy_web.sh
 
 ## 故障与恢复
 
-每次部署快照位于 `infra/web-deploy/runs/<时间戳>/`。目录权限受 umask 077 限制，包含 Runtime 配置，不要公开上传。
+每次部署快照位于 `AlphaForge/infra/web-deploy/runs/<时间戳>/`。目录权限受 umask 077 限制，包含 Runtime 配置，不要公开上传。
 
 - 账号错误、临时凭证过期或 Docker 未启动：修复对应问题后重试。
 - 证书长期验证中：自定义域名模式下检查 Route 53 Zone 和注册商 NS 委派；脚本不代改注册商。
@@ -111,7 +111,7 @@ bash deploy_web.sh
 
 ```bash
 aws bedrock-agentcore-control update-agent-runtime --region YOUR_REGION \
-  --cli-input-json file://infra/web-deploy/runs/YOUR_RUN/runtime-rollback.json
+  --cli-input-json file://AlphaForge/infra/web-deploy/runs/YOUR_RUN/runtime-rollback.json
 ```
 
 不要直接把 `runtime-before.json` 传给 update API，它包含只读字段。恢复后需再次检查 Runtime/endpoint READY。首次部署过程中若仅 Web Stack 失败，Data Stack 可能已创建并保留；再次部署使用相同配置即可更新，切勿随意改 stackPrefix。
@@ -121,14 +121,14 @@ aws bedrock-agentcore-control update-agent-runtime --region YOUR_REGION \
 ## 本地开发验证
 
 ```bash
-cd infra/web-deploy
+cd AlphaForge/infra/web-deploy
 npm ci
 npm test
 python3 -m unittest discover -p 'test_*.py'
-cd ../..
-bash -n deploy_web.sh
-npm --prefix web run typecheck
-npm --prefix web run lint
+cd ../../..
+bash -n AlphaForge/deploy_web.sh
+npm run typecheck
+npm run lint
 ```
 
 基础设施测试在临时目录合成模板，不访问 AWS、不构建 Docker，涵盖 HTTPS、服务端密钥、身份隔离、持久化保护和构建上下文；Python 测试涵盖部署目标验证与现有 Runtime 配置保留。

@@ -6,7 +6,7 @@ The UI has searchable saved conversations, calendar-date groups, rename/delete, 
 
 ## No-sign-in local mode
 
-The local workspace now opens directly without a login screen. `.env.local` is configured with `WEB_AUTH_MODE=local`, local file persistence and the existing Runtime ARN. Start it with `npm run dev` and open http://localhost:3000. All local browsers deliberately share one owner/workspace; keep this server private to your computer. Host and Origin checks reject non-loopback access, and the dev/start commands bind to loopback by default.
+The local workspace now opens directly without a login screen. `.env` is configured with `WEB_AUTH_MODE=local`, local file persistence and the existing Runtime ARN. Start it with `npm run dev` and open http://localhost:3000. All local browsers deliberately share one owner/workspace; keep this server private to your computer. Host and Origin checks reject non-loopback access, and the dev/start commands bind to loopback by default.
 
 No JWT is fabricated or sent in this mode. Real cloud chat requires the existing Runtime code/configuration to be updated to **IAM single-user mode** as described below. AWS SigV4 credentials are still required server-side; removing the browser login does not make the AWS endpoint anonymous. Existing JWT-backed conversations remain separate from the new local workspace. For a publicly hosted multi-user app, set `WEB_AUTH_MODE=oidc` and configure OIDC instead.
 
@@ -20,21 +20,22 @@ export SINGLE_USER_ACTOR_ID=alphaforge-local-owner
 export AGENTCORE_MEMORY_ID=AlphaForgeConversationSTM-j2yxFXBeaQ
 # Set IMAGE_URI to the newly built/pushed image and fetch runtime-current.json
 # as documented in bedrock_portfolio/README.md.
-.venv/bin/python bedrock_portfolio/prepare_runtime_update.py
+.venv/bin/python AlphaForge/bedrock_portfolio/prepare_runtime_update.py
 aws bedrock-agentcore-control update-agent-runtime --region us-east-1 \
-  --cli-input-json file://bedrock_portfolio/runtime-update.json
+  --cli-input-json file://AlphaForge/bedrock_portfolio/runtime-update.json
 ```
 
 The execution code uses only the configured stable actor ID, never a browser-supplied identity. The Runtime must retain IAM inbound authentication; restrict InvokeAgentRuntime to your owner credentials/trusted web role. Every allowed caller intentionally shares this one owner. The update generator refuses to silently convert an existing JWT-authorized endpoint. No OIDC settings are required for this mode. No AWS resources were updated by this local change.
 
 ## Run locally
 
-Use Node.js 24 (22+ supported) and pnpm 12.21.0. From `web/`:
+Use Node.js 24 (22+ supported) and pnpm 12.21.0. From the project root:
 
 ```sh
 npm install --global pnpm@12.21.0
 pnpm install --frozen-lockfile
-cp .env.example .env.local
+# This checkout already has .env. For a fresh checkout only:
+# cp .env.example .env
 # Use WEB_AUTH_MODE=local for no browser login; configure the matching Runtime mode before cloud chat.
 # Generate SESSION_ENCRYPTION_KEY locally with: openssl rand -base64 32
 pnpm dev
@@ -116,22 +117,22 @@ aws bedrock-agentcore-control get-memory --region us-east-1 \
 
 Confirm Runtime and endpoint READY, matching runtime version, Memory ACTIVE, expected image tag, STM ID and all three `AUTH_*` values. Model availability requires an authorized smoke invocation; read-only status alone cannot establish it.
 
-The Python runtime must be updated to include structured results/rejection. Follow [the existing runtime update instructions](../bedrock_portfolio/README.md), set `AGENTCORE_MEMORY_ID=AlphaForgeConversationSTM-j2yxFXBeaQ`, and **skip Memory creation**. Use a new image tag. After authorization and local review, the exact update remains:
+The Python runtime must be updated to include structured results/rejection. Follow [the existing runtime update instructions](../AlphaForge/bedrock_portfolio/README.md), set `AGENTCORE_MEMORY_ID=AlphaForgeConversationSTM-j2yxFXBeaQ`, and **skip Memory creation**. Use a new image tag. After authorization and local review, the exact update remains:
 
 ```sh
 aws bedrock-agentcore-control update-agent-runtime --region us-east-1 \
-  --cli-input-json file://bedrock_portfolio/runtime-update.json \
-  > bedrock_portfolio/runtime-updated.json
+  --cli-input-json file://AlphaForge/bedrock_portfolio/runtime-update.json \
+  > AlphaForge/bedrock_portfolio/runtime-updated.json
 ```
 
 `prepare_runtime_update.py` generates that input from the current deployed configuration. Do not create a second Runtime. Existing conversations on incompatible deployed versions must not be run concurrently across versions. The web app signs calls with IAM and forwards the same verified ID token to Python; configure Python audience to this web OIDC client's ID.
 
 ## Production storage and web deployment — do not run without authorization
 
-`infra/create-table.json` and `infra/web-role-policy.template.json` are reviewable configuration only. The app never provisions resources. After authorization, a deployer can create the dedicated web table, enable session TTL and backups:
+`../infra/create-table.json` and `../infra/web-role-policy.template.json` are reviewable configuration only. The app never provisions resources. After authorization, a deployer can create the dedicated web table, enable session TTL and backups:
 
 ```sh
-aws dynamodb create-table --region us-east-1 --cli-input-json file://web/infra/create-table.json
+aws dynamodb create-table --region us-east-1 --cli-input-json file://infra/create-table.json
 aws dynamodb wait table-exists --region us-east-1 --table-name AlphaForgeWeb
 aws dynamodb update-time-to-live --region us-east-1 --table-name AlphaForgeWeb \
   --time-to-live-specification 'Enabled=true,AttributeName=ttl'
@@ -144,11 +145,10 @@ Review region, name, encryption key requirements, data retention, deletion prote
 Build locally:
 
 ```sh
-cd web
 pnpm build
 pnpm start  # copies static assets into the standalone build and starts it
 # Optional container build from repository root:
-# docker build -f web/Dockerfile -t alphaforge-web:review web
+# docker build -t alphaforge-web:review .
 ```
 
 Deploy the standalone Node.js server/container to your approved host behind HTTPS. Configure `WEB_AUTH_MODE=oidc`, persistent DynamoDB, `STORE_DRIVER=dynamodb`, `ALLOW_LOCAL_FILE_STORE=false`, public origin, OIDC settings, Runtime ARN and server secrets. Set proxy and host timeouts above 240 seconds, avoid platform automatic POST retries, and allow outbound HTTPS to OIDC/JWKS, DynamoDB and AgentCore. Configure access-log redaction, monitoring, user quotas/rate limiting/WAF and backup/erasure operations for your traffic before public rollout. The repository includes no automatic deployment command or infrastructure executor. Do not host this app as a static export.
@@ -156,13 +156,11 @@ Deploy the standalone Node.js server/container to your approved host behind HTTP
 ## Verification
 
 ```sh
-cd web
 pnpm lint
 pnpm typecheck
 pnpm test
 pnpm build
-cd ..
-.venv/bin/python -m unittest discover -s bedrock_portfolio -p 'test_*.py' -v
+python3 -m unittest discover -s AlphaForge/bedrock_portfolio -p 'test_*.py' -v
 ```
 
 Tests mock AWS transports; no cloud charges. They cover UUID creation, persistence/restart, session/revision forwarding, switching, constraint preservation, proposal confirm/reject, ownership and user isolation, concurrent turns, memory failure/timeouts, canceled-request fencing, actual signature checks, CSRF origin checks, chart/table values, missing metrics, direct-edit review, navigation/drawer and composer interactions. Python tests exercise real Strands/session management and CVXPY with mocked transports. Two notebook-reference checks skip if their source CSVs are absent.
